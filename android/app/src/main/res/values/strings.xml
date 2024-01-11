@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">midancap</string>
+    <string name="title_activity_main">midancap</string>
+    <string name="package_name">com.moiste.midan</string>
+    <string name="custom_url_scheme">com.moiste.midan</string>
+</resources>
