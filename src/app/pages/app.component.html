@@ -1,0 +1,74 @@
+<ng-container *ngIf="state$ | async as state">
+
+  <div class="sprints">
+    <div class="sprints__sprint"
+      [ngClass]="{'done': state.sprint > 0, 'active': state.sprint === 0 && state.status !== 'ready'}"></div>
+    <div class="sprints__sprint"
+      [ngClass]="{'done': state.sprint > 1, 'active': state.sprint === 1 && state.status !== 'ready'}"></div>
+    <div class="sprints__sprint"
+      [ngClass]="{'done': state.sprint > 2, 'active': state.sprint === 2 && state.status !== 'ready'}"></div>
+    <div class="sprints__sprint"
+      [ngClass]="{'done': state.sprint > 3, 'active': state.sprint === 3 && state.status !== 'ready'}"></div>
+  </div>
+  <div class="stage" [ngStyle]="{'opacity': state.status === 'ready' ? 0 : 1}">{{state.stage.toUpperCase()}}</div>
+
+  <div class="timer" [ngClass]="{'overflow': state.overflow}">{{state.beautifiedTime}}</div>
+
+  <div class="actions">
+    <ng-container *ngIf="state.status === 'ready'">
+      <div (click)="start()">
+        <ng-container [ngTemplateOutlet]="playTemplate"></ng-container>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="state.status === 'running'">
+      <div (click)="pause()" *ngIf="state.overflow === false">
+        <ng-container [ngTemplateOutlet]="pauseTemplate"></ng-container>
+      </div>
+
+      <div (click)="nextStage()" *ngIf="state.overflow === true">
+        <ng-container [ngTemplateOutlet]="tomatoIcon"></ng-container>
+
+      </div>
+
+      <div (click)="stop()">
+        <ng-container [ngTemplateOutlet]="stopTemplate"></ng-container>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="state.status === 'paused'">
+      <div (click)="continue()">
+        <ng-container [ngTemplateOutlet]="playTemplate"></ng-container>
+      </div>
+
+      <div (click)="stop()">
+        <ng-container [ngTemplateOutlet]="stopTemplate"></ng-container>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>
+
+<ng-template #playTemplate>
+  <div class="icon">
+    <div class="play-icon"></div>
+  </div>
+</ng-template>
+
+<ng-template #stopTemplate>
+  <div class="small-icon">
+    <div class="stop-icon"></div>
+  </div>
+</ng-template>
+
+<ng-template #pauseTemplate>
+  <div class="icon">
+    <div class="pause-icon"></div>
+    <div class="pause-icon"></div>
+  </div>
+</ng-template>
+
+<ng-template #tomatoIcon>
+  <div class="icon">
+    <div class="tomato-icon">🍅</div>
+  </div>
+</ng-template>
